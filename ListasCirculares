@@ -1,0 +1,71 @@
+#Construccion
+typedef struct ElementoLista {
+    char *dato;
+    struct ElementoLista *siguiente;
+}Elemento;
+
+#Construccion
+typedef struct ListaIdentificar {
+    Elemento *inicio;
+    Elemento *fin;
+    int tamaño;
+}Lista;
+
+#Inicializar_una_lista
+void inicialización (Lista *lista){
+    lista->inicio = NULL;
+    lista->fin = NULL;
+    tamaño = 0;
+}
+
+#Insetar_en_una_lista_no_vacia
+int ins_lista_circ(Lista * lista, Elemento *actual, char *dato){
+Elemento *nuevo_elemento;
+if ((nuevo_elemento = (Elemento *) malloc (sizeof (Elemento)))== NULL)
+return -1; 
+if ((nuevo_elemento->dato = (char *) malloc (50 * sizeof (char)))== NULL)
+return -1;
+strcpy (nuevo_elemento->dato, dato);
+if(actual != lista->fin)
+return -1;
+nuevo_elemento->siguiente = actual->siguiente;
+actual->siguiente = nuevo_elemento;
+lista->fin = nuevo_elemento;
+lista->tamaño++;
+return 0;
+}
+
+#Eliminar_al_inicio
+int sup_lista_circ(Lista * lista){
+if (lista->tamaño < 2)
+return -1;
+Elemento *sup_element;
+sup_elemento = lista->inicio;
+lista->inicio = lista->inicio->siguiente;
+lista->fin->siguiente = lista->inicio;
+free (sup_elemento->dato);
+free (sup_elemento);
+lista->tamaño--;
+return 0;
+}
+
+#Visualizar_la_lista
+void mostrar (Lista * lista){
+Elemento *actual;
+actual = lista->inicio;
+int i;
+for(i=0;i<lista->tamaño;++i){
+printf ("%p - %s\n", actual, actual->dato);
+actual = actual->siguiente;
+}
+}
+
+#Eliminar_todo
+void destruir (Lista * lista){
+while (lista->tamaño > 0){
+if(lista->tamaño > 1)
+sup_lista_circ (lista);
+else
+sup_lista_circ_unica(lista);
+}
+}
