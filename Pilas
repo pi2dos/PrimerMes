@@ -1,0 +1,54 @@
+#Elaborar_una_pila
+typedef struct ElementoLista {
+char *dato;
+struct ElementoLista *siguiente;
+}Elemento;
+
+#Contador
+typedef struct ListaUbicación{
+Elemento *inicio;
+int tamaño;
+} Pila;
+
+#Inicializar
+void inicialización (Pila * tas){
+tas->inicio = NULL;
+tas->tamaño = 0;
+}
+
+#Insertar_elemento
+int apilar (Pila * tas, char *dato){
+Elemento *nuevo_elemento;
+if ((nuevo_elemento = (Elemento *) malloc (sizeof (Elemento))) == NULL)
+return -1;
+if ((nuevo_elemento->dato = (char *) malloc (50 * sizeof (char)))== NULL)
+return -1;
+strcpy (nuevo_elemento->dato, dato);
+nuevo_elemento->siguiente = tas->inicio;
+tas->inicio = nuevo_elemento;
+tas->tamaño++;
+}
+
+#Eliminar_en_elemento
+int desapilar (Pila * tas){
+Elemento *sup_elemento;
+if (tas->tamaño == 0)
+return -1;
+sup_elemento = tas->inicio;
+tas->inicio = tas->inicio->siguiente;
+free (sup_elemento->dato);
+free (sup_elemento);
+tas->tamaño--;
+return 0;
+}
+
+#Visualizacion
+void muestra (Pila * tas){
+Elemento *actual;
+int i;
+actual = tas->inicio;
+for(i=0;i<tas->tamaño;++i){
+printf("\t\t%s\n", actual->dato);
+actual = actual->siguiente;
+}
+}
