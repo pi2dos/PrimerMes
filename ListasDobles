@@ -1,0 +1,106 @@
+#Construccion
+typedef struct Listadoble {
+char *dato;
+struct Listadoble *anterior;
+struct Listadoble *siguiente;
+}Listadoble;
+
+#Contador
+typedef struct ListadobleO {
+ListadobleO *inicio;
+ListadobleO *fin;
+int tam;
+}ListadobleO;
+
+#Insercion_de_un_elemento_lista_vacia
+int insercion_en_lista_vacia (ListadobleO * lista, char *dato){
+ListadobleO *nuevo_elemento;
+if ((nuevo_elemento = alloc (nuevo_elemento)) == NULL)
+return -1;
+strcpy (nuevo_elemento->dato, dato);
+nuevo_elemento->anterior = lista->inicio;
+nuevo_elemento->siguiente = lista->fin;
+lista->inicio = nuevo_elemento;
+lista->fin = nuevo_elemento;
+lista->tam++;
+return 0;
+}
+
+#Insercion_de_un_elemento_lista_con_elementos
+int ins_inicio_lista(ListadobleO* lista, char *dato){
+ListadobleO *nuevo_elemento;
+if ((nuevo_elemento = alloc (nuevo_elemento)) == NULL)
+return -1;
+strcpy (nuevo_elemento->dato, dato);
+nuevo_elemento->anterior = NULL;
+nuevo_elemento->siguiente = lista->inicio;
+lista->inicio->anterior = nuevo_elemento;
+lista->inicio = nuevo_elemento;
+lista->tam++;
+return 0;
+}
+
+#Insertar_al_final
+int ins_fin_lista(ListadobleO * lista, char *dato){
+ListadobleO *nuevo_elemento;
+if ((nuevo_elemento = alloc (nuevo_elemento)) == NULL)
+return -1;
+strcpy (nuevo_elemento->dato, dato);
+nuevo_elemento->siguiente = NULL;
+nuevo_elemento->anterior = lista->fin;
+lista->fin->siguiente = nuevo_elemento;
+lista->fin = nuevo_elemento;
+lista->tam++;
+return 0;
+}
+
+#Eliminar_elemento
+ListadobleO *sup_elemento,*actual;
+if(lista->tam == 0)
+return -1;
+if(pos == 1){ 
+sup_elemento = lista->inicio;
+lista->inicio = lista->inicio->siguiente;
+if(lista->inicio == NULL)
+lista->fin = NULL;
+else
+lista->inicio->anterior == NULL;
+}else if(pos == lista->tam){ 
+sup_elemento = lista->fin;
+lista->fin->anterior->siguiente = NULL;
+lista->fin = lista->fin->anterior;
+}else { 
+actual = lista->inicio;
+for(i=1;i<pos;++i)
+actual = actual->siguiente;
+sup_elemento = actual;
+actual->anterior->siguiente = actual->siguiente;
+actual->siguiente->anterior = actual->anterior;
+}
+free(sup_elemento->dato);
+free(sup_elemento);
+lista->tamaño--;
+return 0;
+}
+
+#Visualizacion 
+void visua(ListadobleO *lista){ 
+ListadobleO *actual;
+actual = lista->inicio; 
+printf("[ ");
+while(actual != NULL){
+printf("%s ",actual->dato);
+actual = actual->siguiente;
+}
+printf("]\n");
+}
+void mus(ListadobleO *lista){ 
+ListadobleO *actual;
+actual = lista->fin; 
+printf("[ ");
+while(actual != NULL){
+printf("%s : ",actual->dato);
+actual = actual->anterior;
+}
+printf("]\n");
+}
