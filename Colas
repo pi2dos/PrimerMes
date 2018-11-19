@@ -1,0 +1,65 @@
+#Contruccion
+typedef struct ElementoLista {
+char *dato;
+struct ElementoLista *siguiente;
+}Elemento;
+Para tener un control de la fila, guardaremos ciertos elementos: El primer elemento, el último elemento y el número de elementos ingresados. 
+typedef struct ListaUbicación{
+Elemento *inicio;
+Elemento *fin;
+int tamaño;
+} Fila;
+
+#Inicializacion
+void inicialización (Fila * serie){
+serie->inicio = NULL;
+serie->fin = NULL;
+serie->tamaño = 0;
+}
+
+#Insercion
+int insertar (Fila * serie, Elemento * actual, char *dato){
+Elemento *nuevo_elemento;
+if ((nuevo_elemento = (Elemento *) malloc (sizeof (Elemento))) == NULL)
+return -1;
+if ((nuevo_elemento->dato = (char *) malloc (50 * sizeof (char)))
+== NULL)
+return -1;
+strcpy (nuevo_elemento->dato, dato);
+if(actual == NULL){
+if(serie->tamaño == 0)
+serie->fin = nuevo_elemento;
+nuevo_elemento->siguiente = serie->inicio;
+serie->inicio = nuevo_elemento;
+}else {
+if(actual->siguiente == NULL)
+serie->fin = nuevo_elemento;
+nuevo_elemento->siguiente = actual->siguiente;
+actual->siguiente = nuevo_elemento;
+}
+serie->tamaño++;
+return 0;
+}
+
+#eliminar_elemento
+int eliminar (Fila * serie){
+Elemento *sup_elemento;
+if (serie->tamaño == 0)
+return -1;
+sup_elemento = serie->inicio;
+serie->inicio = serie->inicio->siguiente;
+free (sup_elemento->dato);
+free (sup_elemento);
+serie->tamaño--;
+return 0;
+}
+
+#Visualizacion
+Elemento *actual;
+int i;
+actual = serie->inicio;
+for(i=0;i<serie->tamaño;++i){
+printf(" %s ", actual->dato);
+actual = actual->siguiente;
+}
+}
